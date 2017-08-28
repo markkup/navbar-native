@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import { color, size, font, theme,iOS } from './utils';
 
 export default navbarStyles = {
@@ -52,6 +53,7 @@ export default navbarStyles = {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
+        marginLeft: Platform.OS == "ios" ? 2 : 7
     },
     navBarButton: {
         position: 'relative',
@@ -64,8 +66,9 @@ export default navbarStyles = {
     navBarButtonText: {
         fontSize: 17,
         fontFamily: font.buttonText,
+        fontWeight: Platform.OS == "ios" ? "400" : "400",
         marginBottom: size.navBarButtonText.marginBottom,
-        backgroundColor: 'transparent',
+        backgroundColor: 'transparent'
     },
     navBarTitleContainer: {
         position: 'absolute',

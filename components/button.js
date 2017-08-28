@@ -1,9 +1,9 @@
 import React, {Component, PropTypes} from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {Text, TouchableOpacity, View, Platform} from 'react-native';
 import Navbar from './navbar';
 import styles, { theme } from '../styles';
 
-const MARGIN = 4;
+const MARGIN = 1;
 
 export default class Button extends Component {
 
@@ -162,7 +162,7 @@ export default class Button extends Component {
                         };
                     case (this.hasIcon && this.hasLabel):
                         return {
-                            marginLeft: MARGIN
+                            marginLeft: Platform.OS == "ios" ? MARGIN * 5 : MARGIN * 8
                         };
                 }
             case (this.props.btnRight):

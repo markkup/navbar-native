@@ -72,8 +72,8 @@ export default class Navbar extends Component {
             { backgroundColor: this.props.statusBar.bgColor } : null;
 
         switch (true) {
-            case (!!this.props.statusBar.hidden):
-                return <StatusBar hidden={true} />;
+            /*case (!!this.props.statusBar.hidden):
+                return <StatusBar hidden={true} />;*/
             case (isIOS() && !this.props.statusBar.hidden):
                 const statusBarStyle = { barStyle: (this.props.statusBar && this.props.statusBar.style) ?
                     this.props.statusBar.style : theme[this.theme].statusBar.style }
@@ -86,11 +86,13 @@ export default class Navbar extends Component {
                 return <View style={[styles.statusBar, customStatusBarBgColor]}>
                     <StatusBar {...iOsStatusBar} />
                 </View>;
-            case (!isIOS() && !this.props.statusBar.hidden):
+            /*case (!isIOS() && !this.props.statusBar.hidden):
                 const bgStatusBarColor = this.props.statusBar.bgColor ?
                     { backgroundColor: this.props.statusBar.bgColor } : theme[this.theme].statusBar;
                 const androidStatusBar = Object.assign({}, Navbar.defaultProps.statusBar.android, bgStatusBarColor);
-                return <StatusBar {...androidStatusBar}/>;
+                return <StatusBar {...androidStatusBar}/>;*/
+            case (!isIOS() && !this.props.statusBar.hidden):
+                return <View style={{height:25,backgroundColor:"transparent"}}></View>
             default:
                 return <StatusBar />;
         }
@@ -173,19 +175,20 @@ export default class Navbar extends Component {
 
     renderIcon(props, labelPos, btnPos) {
         if ((!props.iconPos && labelPos == btnPos) || props.iconPos == labelPos) {
-            const family = (props.iconFamily) ? props.iconFamily : 'Ionicons';
+            const iconType = (props.iconType) ? props.iconType : 'simple-line-icon';
+            const iconSize = (props.iconSize) ? props.iconSize : 22;
             switch (true) {
                 case (props.role == MENU):
                     const icon = (props.icon) ? fixIconName(props.icon) : iconName(this.iconPrefix, 'menu');
-                    return <Icon name={icon} family={family} color={props.iconColor} theme={this.theme} size={props.iconSize} />;
+                    return <Icon name={icon} type={"ionicon"} color={props.iconColor} theme={this.theme} size={32} />;
                 case (props.role == CLOSE):
                     const iconClose = (props.icon) ? fixIconName(props.icon) : iconName(this.iconPrefix, 'close');
-                    return <Icon name={iconClose} family={family} color={props.iconColor} theme={this.theme} size={props.iconSize} />;
+                    return <Icon name={"close"} type={"material-community"} color={props.iconColor} theme={this.theme} size={32} />;
                 case (props.role == BACK):
                     const iconBack = (props.icon) ? fixIconName(props.icon) : iconName(this.iconPrefix, 'arrow-back');
-                    return <Icon name={iconBack} family={family} color={props.iconColor} theme={this.theme} size={props.iconSize} />;
+                    return <Icon name={iconBack} type={"ionicon"} color={props.iconColor} theme={this.theme} size={Platform.OS == "ios" ? 32 : 22} />;
                 case (!!props.icon):
-                    return <Icon name={fixIconName(props.icon)} family={family} color={props.iconColor} theme={this.theme} size={props.iconSize} />;
+                    return <Icon name={fixIconName(props.icon)} type={iconType} color={props.iconColor} theme={this.theme} size={iconSize} />;
                 default:
                     return null;
             }
@@ -332,8 +335,9 @@ export default class Navbar extends Component {
     render() {
         const renderTitle = isIOS() ? this.renderTitle() : null;
         const bgColor = { backgroundColor: this.props.bgColor ? this.props.bgColor : theme[this.theme].bgNavbarColor };
+        const topStyle = this.props.top ? {position: 'absolute', top: 0, right: 0, left: 0} : {};
         return (
-            <View style={[styles.navBarContainer, bgColor]} elevation={this.props.elevation}>
+            <View style={[styles.navBarContainer, bgColor, topStyle]} elevation={this.props.elevation}>
                 {this.renderStatusBar()}
                 {this.renderBackgroundImage()}
                 <View style={[styles.navBar, this.props.style]}>
@@ -364,7 +368,7 @@ export default class Navbar extends Component {
 
     static buttonPropTypes = {
         icon: PropTypes.string,
-        iconFamily: PropTypes.string,
+        iconType: PropTypes.string,
         iconPos: PropTypes.string,
         iconSize: PropTypes.number,
         iconColor: PropTypes.string,

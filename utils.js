@@ -39,8 +39,8 @@ export const size = {
     },
 
     navBarTitleText: {
-        marginLeft: iOS(0, 16),
-        fontWeight: iOS('500', '400'),
+        marginLeft: iOS(0, 18),
+        fontWeight: iOS('500', '600'),
     },
 
     navBarHeight: 44,

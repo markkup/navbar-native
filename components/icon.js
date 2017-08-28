@@ -7,6 +7,10 @@ import Foundation from 'react-native-vector-icons/Foundation';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Octicons from 'react-native-vector-icons/Octicons';
 import Zocial from 'react-native-vector-icons/Zocial';
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
 
 import styles, { theme } from '../styles';
 import { size } from '../utils';
@@ -20,30 +24,39 @@ export default class Icon extends Component {
     }
 
     componentWillMount() {
-        switch(this.props.family) {
-            case 'Ionicons':
+        switch(this.props.type) {
+            case 'ionicon':
                 this.Icon = Ionicons;
                 break;
-            case 'Entypo':
+            case 'evilicon':
+                this.Icon = EvilIcons;
+                break;
+            case 'entypo':
                 this.Icon = Entypo;
                 break;
-            case 'FontAwesome':
+            case 'font-awesome':
                 this.Icon = FontAwesome;
                 break;
-            case 'Foundation':
+            case 'foundation':
                 this.Icon = Foundation;
                 break;
-            case 'MaterialIcons':
+            case 'material':
                 this.Icon = MaterialIcons;
                 break;
-            case 'Octicons':
+            case 'material-community':
+                this.Icon = MaterialCommunityIcons;
+                break;
+            case 'octicons':
                 this.Icon = Octicons;
                 break;
-            case 'Zocial':
+            case 'zocial':
                 this.Icon = Zocial;
                 break;
+            case 'simple-line-icon':
+                this.Icon = SimpleLineIcons;
+                break;
             default:
-                this.Icon = Ionicons;
+                this.Icon = SimpleLineIcons;
         }
     }
 
@@ -59,7 +72,7 @@ export default class Icon extends Component {
     }
 
     static propTypes = {
-        family: PropTypes.string,
+        type: PropTypes.string,
         name: PropTypes.string,
         color: PropTypes.string,
         theme: PropTypes.string,
