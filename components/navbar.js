@@ -439,7 +439,7 @@ Navbar.propTypes = {
         PropTypes.element,
         PropTypes.func,
     ]),
-    style: PropTypes.object,
+    style: PropTypes.any,
     user: PropTypes.oneOfType([
         PropTypes.object,
         PropTypes.bool
