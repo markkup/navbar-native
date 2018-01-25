@@ -1,4 +1,5 @@
 import { Platform, Dimensions } from 'react-native';
+import { isIphoneX } from "react-native-iphone-x-helper"
 
 export function iOS(a, b) {
     return Platform.OS == 'ios' ? a : b;
@@ -44,7 +45,7 @@ export const size = {
     },
 
     navBarHeight: 44,
-    statusBarHeight: 20,
+    statusBarHeight: isIphoneX() ? 44 : 20,
 
     screenWidth: Dimensions.get('window').width,
     screenHeight: Dimensions.get('window').height,

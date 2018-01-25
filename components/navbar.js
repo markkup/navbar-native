@@ -6,6 +6,8 @@ import Button from './button';
 import styles, { theme, size } from '../styles';
 import { isIOS, iOS, iconName, fixIconName } from '../utils';
 
+import ThemedStyle from "shared/lib/ThemedStyle"
+
 const BACK = 'back';
 const CLOSE = 'close';
 const LOGIN = 'login';
@@ -23,6 +25,8 @@ const RIGHT = 'right';
 
 export default class Navbar extends Component {
 
+    static height = size.navBarHeight + size.statusBarHeight;
+
     constructor(props) {
         super(props);
 
@@ -30,7 +34,9 @@ export default class Navbar extends Component {
         this.hasRightBtn = !!props.right;
         this.hasBothBtn = this.hasLeftBtn && this.hasRightBtn;
         this.iconPrefix = isIOS() ? 'ios' : 'md';
-        this.theme = !!props.theme ? props.theme : isIOS() ? LIGHT : DARK;
+        this.oldTheme = !!props.theme ? props.theme : isIOS() ? LIGHT : DARK;
+        this.themedStyle = new ThemedStyle(props);
+        this.theme = this.themedStyle.appTheme;
     }
 
     _managePress(props) {
@@ -75,20 +81,20 @@ export default class Navbar extends Component {
             /*case (!!this.props.statusBar.hidden):
                 return <StatusBar hidden={true} />;*/
             case (isIOS() && !this.props.statusBar.hidden):
-                const statusBarStyle = { barStyle: (this.props.statusBar && this.props.statusBar.style) ?
-                    this.props.statusBar.style : theme[this.theme].statusBar.style }
-                const iOsStatusBar = Object.assign({}, Navbar.defaultProps.statusBar.iOS, statusBarStyle);
+                //const statusBarStyle = { barStyle: (this.props.statusBar && this.props.statusBar.style) ?
+                //    this.props.statusBar.style : this.oldTheme[this.oldTheme].statusBar.style }
+                //const iOsStatusBar = Object.assign({}, Navbar.defaultProps.statusBar.iOS, statusBarStyle);
 
                 if (this.props.statusBar && this.props.statusBar.hidden) iOsStatusBar.hidden = this.props.statusBar.hidden;
                 if (this.props.statusBar && this.props.statusBar.animation) iOsStatusBar.animated = this.props.statusBar.animation;
                 if (this.props.statusBar && this.props.statusBar.transition) iOsStatusBar.showHideTransition = this.props.statusBar.transition;
 
                 return <View style={[styles.statusBar, customStatusBarBgColor]}>
-                    <StatusBar {...iOsStatusBar} />
+                    <StatusBar />
                 </View>;
             /*case (!isIOS() && !this.props.statusBar.hidden):
                 const bgStatusBarColor = this.props.statusBar.bgColor ?
-                    { backgroundColor: this.props.statusBar.bgColor } : theme[this.theme].statusBar;
+                    { backgroundColor: this.props.statusBar.bgColor } : oldTheme[this.oldTheme].statusBar;
                 const androidStatusBar = Object.assign({}, Navbar.defaultProps.statusBar.android, bgStatusBarColor);
                 return <StatusBar {...androidStatusBar}/>;*/
             case (!isIOS() && !this.props.statusBar.hidden):
@@ -154,7 +160,7 @@ export default class Navbar extends Component {
     }
 
     renderTitle() {
-        const titleColor = {color: (this.props.titleColor) ? this.props.titleColor : theme[this.theme].titleColor};
+        const titleColor = {color: (this.props.titleColor) ? this.props.titleColor : this.theme.navbarTitleColor};
         switch (true) {
             case (isIOS() && !!this.props.title && typeof this.props.title === "string"):
                 return (
@@ -210,7 +216,7 @@ export default class Navbar extends Component {
                     case (isIOS() && !!props.label):
                         return props.label;
                     case (isIOS() && !!!props.label):
-                        return 'Back';
+                        return '            ';
                     case (!isIOS() && !!!props.label):
                     default:
                         return null;
@@ -334,7 +340,7 @@ export default class Navbar extends Component {
 
     render() {
         const renderTitle = isIOS() ? this.renderTitle() : null;
-        const bgColor = { backgroundColor: this.props.bgColor ? this.props.bgColor : theme[this.theme].bgNavbarColor };
+        const bgColor = { backgroundColor: this.props.bgColor ? this.props.bgColor : this.theme.navbarBackgroundColor };
         const topStyle = this.props.top ? {position: 'absolute', top: 0, right: 0, left: 0} : {};
         return (
             <View style={[styles.navBarContainer, bgColor, topStyle]} elevation={this.props.elevation}>
@@ -420,7 +426,6 @@ export default class Navbar extends Component {
 const buttonShape = PropTypes.shape(Navbar.buttonPropTypes);
 
 Navbar.propTypes = {
-    theme: PropTypes.oneOf([DARK, LIGHT]),
     title: PropTypes.oneOfType([
         PropTypes.func,
         PropTypes.string,

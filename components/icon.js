@@ -20,7 +20,7 @@ export default class Icon extends Component {
     constructor(props) {
         super(props);
 
-        this.theme = (this.props.theme) ? this.props.theme : 'light';
+        this.theme = this.props.theme;
     }
 
     componentWillMount() {
@@ -61,7 +61,7 @@ export default class Icon extends Component {
     }
 
     render() {
-        const color = {color: this.props.color ? this.props.color : theme[this.theme].buttonColor};
+        const color = {color: this.props.color ? this.props.color : this.theme.navbarTintColor};
         return(
             <this.Icon
                 name={this.props.name}
@@ -75,7 +75,7 @@ export default class Icon extends Component {
         type: PropTypes.string,
         name: PropTypes.string,
         color: PropTypes.string,
-        theme: PropTypes.string,
+        theme: PropTypes.object,
     };
 
     static defaultProps = {

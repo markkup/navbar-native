@@ -31,7 +31,7 @@ export default class Button extends Component {
                         case (child && typeof child == 'string'):
                             return <Text style={[
                                 styles.navBarButtonText,
-                                { color: theme[this.props.theme].buttonColor },
+                                { color: this.props.theme.navbarTintColor },
                                 this._setIconLabelMargins(this.props),
                                 this.props.customStyle
                             ]}>
@@ -56,8 +56,8 @@ export default class Button extends Component {
         ) {
 
             let value = this.props.badge;
-            let badgeBgColor = theme[this.props.theme].badgeBgColor;
-            let badgeTextColor = theme[this.props.theme].badgeTextColor;
+            let badgeBgColor = theme["light"].badgeBgColor;
+            let badgeTextColor = theme["light"].badgeTextColor;
 
             let position = {};
             position[Navbar.RIGHT] = -7;
@@ -205,7 +205,7 @@ export default class Button extends Component {
         btnRight: PropTypes.bool,
         onPress: PropTypes.func,
         disabled: PropTypes.bool,
-        theme: PropTypes.string,
+        theme: PropTypes.object,
         customStyle: PropTypes.object,
         badge: PropTypes.oneOfType([
             PropTypes.object,
