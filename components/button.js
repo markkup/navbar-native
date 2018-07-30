@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from 'react';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import {Text, TouchableOpacity, View, Platform} from 'react-native';
 import Navbar from './navbar';
 import styles, { theme } from '../styles';
@@ -213,4 +214,4 @@ export default class Button extends Component {
             PropTypes.string
         ]),
     };
-};
+}
